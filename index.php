@@ -10,11 +10,6 @@
 
 require('connect.php');
 
-
-$query = "SELECT * FROM posts ORDER BY created_date DESC LIMIT 5";
-
-    $statement = $db->prepare($query);
-    $statement->execute(); 
 ?>
 
 <!DOCTYPE html>
@@ -36,24 +31,24 @@ $query = "SELECT * FROM posts ORDER BY created_date DESC LIMIT 5";
     
     <?php include('nav.php') ?>
 
-    <fieldset>
-        <?php while($row = $statement->fetch()): ?>
-            <div class="post">
-                <div class="post_title">
-                    <a href="show.php?post_id=<?= $row['post_id'] ?>"><?= $row['title'] ?></a> 
-                </div> 
+    <div id="content">
+        <div id="aboutUs">
+            <img src="images/white_lego.jpg" alt="white lego bricks">
+            <h2><a href="about.php">About Us</a></h2>
+        </div>
 
-                <?= date('F j, Y, h:i A', strtotime($row['created_date'])) ?>
+        <div id="blogs">
+            <img src="images/lego_heads.jpg" alt="lego heads">
+            <h2><a href="list.php">Blogs</a></h2>
+        </div>
 
-                <div class="post_content">
-                    <?= mb_strimwidth($row['content'], 0, 200, "...") ?>
-                    <?php if(strlen($row['content']) >= 200): ?> 
-                        <a href="show.php?post_id=<?= $row['post_id'] ?>"> read more</a>
-                    <?php endif ?>
-                </div>
-            </div>
-        <?php endwhile ?>
-    </fieldset>
+        <div id="contactUs">
+            <img src="images/red_black_lego.jpg" alt="red and black lego bricks">
+            <h2><a href="contact.php">Contact Us</a></h2>
+        </div>
+    </div>
+
+    
 
     <footer>
         <p>Copyright © 2023 Bricks. All rights reserved.</p>

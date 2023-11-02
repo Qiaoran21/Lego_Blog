@@ -202,3 +202,19 @@ h2 {
     margin: auto;
     height: 500px;
 }
+
+#aboutUs img, #blogs img, #contactUs img {
+    width: 300px;
+}
+
+#aboutUs a:hover, #blogs a:hover, #contactUs a:hover {
+    text-decoration: none;
+    font-style: italic;
+}
+
+#content {
+    width: 80%;
+    margin: auto;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
