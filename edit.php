@@ -97,7 +97,7 @@ else if(isset($_GET['post_id'])) {
             <textarea name="content" id="content" cols="100" rows="17"><?= $posts['content'] ?></textarea>
                 
             <button type="submit" name="edit" value="edit">Update</button>
-            <button type="submit" name="delete" value="delete">Delete</button>
+            <button type="submit" name="delete" value="delete" onclick="return confirm('Are you sure you want to delete?')">Delete</button>
         </form>
     <?php endif ?>
     <footer>
