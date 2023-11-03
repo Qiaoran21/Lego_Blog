@@ -54,7 +54,7 @@ if ($_POST && !empty($_POST['title']) && !empty($_POST['content'])) {
         </div>
         
         <div id="post_content">
-            <textarea name="content" id="content" cols="100" rows="17" placeholder="Write here..."></textarea>
+            <textarea name="content" cols="100" rows="17" placeholder="Write here..."></textarea>
         </div>
         
         <div>

@@ -266,9 +266,21 @@ fieldset a:hover {
     font-style: italic;
 }
 
-#results ul h2 {
-    width: 80%;
+#results ul{
     margin: auto;
-    padding-top: 30px;
-    padding-bottom: 30px;
+    width: 80%;
+    padding: 30px;
+}
+
+#results ul li {
+    padding-top: 10px;
+}
+
+#results ul li a {
+    color: #DA291C;
+}
+
+#results ul li a:hover {
+    text-decoration: none;
+    font-style: italic;
 }

@@ -50,7 +50,7 @@ if(isset($_POST['submit']) && !empty($_POST['key'])) {
         <ul>
             <?php if ($rows != 0): ?>
                 <?php foreach ($results as $result): ?>
-                    <li><?= $result['title'] ?></li>
+                    <li><h2><a href="show.php?post_id=<?= $result['post_id'] ?>"><?= $result['title'] ?></a></h2></li>
                 <?php endforeach; ?>
             <?php else: ?>
                 <h2><?= 'Nothing found!' ?></h2>
