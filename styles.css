@@ -296,12 +296,13 @@ fieldset a:hover {
 
 #results ul img {
     width: 700px;
-    padding-left: 50px;
+    border-radius: 30px;
 }
 
 #nothingFound {
     display: flex;
     padding-left: 30px;
+    padding-right: 30px;
 }
 
 #questions h3 {
