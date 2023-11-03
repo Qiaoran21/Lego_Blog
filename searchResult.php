@@ -27,7 +27,6 @@ if(isset($_POST['submit']) && !empty($_POST['key'])) {
     header("Location: index.php");
 }
 
-
 ?>
 
 <!DOCTYPE html>
