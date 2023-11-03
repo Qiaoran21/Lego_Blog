@@ -53,7 +53,10 @@ if(isset($_POST['submit']) && !empty($_POST['key'])) {
                     <li><h2><a href="show.php?post_id=<?= $result['post_id'] ?>"><?= $result['title'] ?></a></h2></li>
                 <?php endforeach; ?>
             <?php else: ?>
-                <h2><?= 'Nothing found!' ?></h2>
+                <div id="nothingFound">
+                    <h2><?= 'Nothing found!  Please search again.' ?></h2>
+                    <img src="images/sad.jpg" alt="sad lego">
+                </div>   
             <?php endif; ?>
         </ul>
     </div>

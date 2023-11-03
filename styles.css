@@ -126,6 +126,10 @@ form {
     font-family: 'Quicksand', sans-serif;
 }
 
+#posts fieldset a {
+    color: #008F9B;
+}
+
 fieldset {
     padding-bottom: 20px;
 }
@@ -150,6 +154,11 @@ fieldset .post .post_content {
     padding-top: 10px;
     padding-bottom: 10px;
     font-family: 'Quicksand', sans-serif;
+}
+
+fieldset .post .post_content a {
+    font-size: 1rem;
+    color: #008F9B;
 }
 
 footer p{
@@ -283,4 +292,19 @@ fieldset a:hover {
 #results ul li a:hover {
     text-decoration: none;
     font-style: italic;
+}
+
+#results ul img {
+    width: 700px;
+    padding-left: 50px;
+}
+
+#nothingFound {
+    display: flex;
+    padding-left: 30px;
+}
+
+#questions h3 {
+    color: #008F9B;
+    font-weight: bold;
 }

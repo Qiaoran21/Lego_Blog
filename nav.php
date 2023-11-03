@@ -33,7 +33,7 @@ require 'connect.php';
         <li><a href="insert.php">New Post</a></li>
         <li><a href="contact.php">Contact Us</a></li> 
         <li><a href="login.php">Login</a></li> 
-        <div>
+        <div id="searchBar">
             <form action="searchResult.php" method="post">
                 <li><input type="text" placeholder="Search..." name="key"></li>
                 <li><input type="submit" value="submit" name="submit"></li>
