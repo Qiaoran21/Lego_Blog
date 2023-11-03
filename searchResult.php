@@ -11,10 +11,23 @@
 // require('connect.php');
 include('nav.php');
 
-$query = "SELECT * FROM posts ORDER BY created_date DESC LIMIT 5";
+if(isset($_POST['submit']) && !empty($_POST['key'])) {
+    $key= filter_input(INPUT_POST, 'key', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
+    $key = $_POST['key'];
+    $query = "SELECT * FROM posts WHERE title LIKE :keyword OR content LIKE :keyword ORDER BY created_date DESC";
     $statement = $db->prepare($query);
-    $statement->execute(); 
+
+    $statement->bindValue(":keyword", '%'.$key.'%');
+    $statement->execute();
+
+    $results = $statement->fetchAll();
+    $rows = $statement->rowCount();
+} else {
+    header("Location: index.php");
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -30,29 +43,21 @@ $query = "SELECT * FROM posts ORDER BY created_date DESC LIMIT 5";
     <title>Bricks - Let's talk about Lego!</title>
 </head>
 <body>
-<div id="header">
-        <h1><a href="index.php">Blogs</a></h1>
+    <div id="header">
+        <h1><a href="index.php">Search Result</a></h1>
     </div>
-    
-    <fieldset>
-        <?php while($row = $statement->fetch()): ?>
-            <div class="post">
-                <div class="post_title">
-                    <a href="show.php?post_id=<?= $row['post_id'] ?>"><?= $row['title'] ?></a> 
-                </div> 
 
-                <?= date('F j, Y, h:i A', strtotime($row['created_date'])) ?>
-
-                <div class="post_content">
-                    <?= mb_strimwidth($row['content'], 0, 200, "...") ?>
-                    <?php if(strlen($row['content']) >= 200): ?> 
-                        <a href="show.php?post_id=<?= $row['post_id'] ?>"> read more</a>
-                    <?php endif ?>
-                </div>
-            </div>
-        <?php endwhile ?>
-    </fieldset>
-
+    <div id="results">
+        <ul>
+            <?php if ($rows != 0): ?>
+                <?php foreach ($results as $result): ?>
+                    <li><?= $result['title'] ?></li>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <h2><?= 'Nothing found!' ?></h2>
+            <?php endif; ?>
+        </ul>
+    </div>
     <footer>
         <p>Copyright © 2023 Bricks. All rights reserved.</p>
     </footer>

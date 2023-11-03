@@ -8,7 +8,7 @@
 
 ****************/
 
-require('connect.php');
+// require('connect.php');
 include('nav.php');
 
 // if (isset($_GET['post_id'])) {

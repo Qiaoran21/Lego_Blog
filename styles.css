@@ -80,7 +80,7 @@ nav ul li {
 nav ul li a {
     width: 150px;
     display: block;
-    padding: 15px 10px;
+    padding: 10px 10px;
     text-transform: uppercase;
     text-align: center;
     color: black;
@@ -96,6 +96,20 @@ nav ul li a:hover {
     color: black;
 }
 
+#menu input {
+    float: right;
+    border: none;
+    border-radius: 10px;
+}
+
+#menu input:focus {
+    outline: none;
+}
+
+form {
+    margin: 0%;
+}
+
 #posts {
     width: 80%;
     margin: auto;
@@ -104,7 +118,7 @@ nav ul li a:hover {
 #posts h2 {
     padding-top: 30px;
     font-family: 'Quicksand', sans-serif;
-    color: #0088dd;
+    color: #DA291C;
 }
 
 #posts .post_content {
@@ -124,7 +138,7 @@ fieldset .post a{
     text-decoration: none;
     font-family: 'Quicksand', sans-serif;
     font-size: 1.5rem;
-    color: #0088dd;
+    color: #DA291C;
     font-weight: bold;
 }
 
@@ -151,7 +165,7 @@ footer p{
 h2 {
     font-family: 'Quicksand', sans-serif;
     font-weight: bold;
-    color: #0088dd;
+    color: #DA291C;
 }
 
 #help {
@@ -205,6 +219,15 @@ h2 {
 
 #aboutUs img, #blogs img, #contactUs img {
     width: 300px;
+    border-radius: 30px;
+    transition: 1s ease;
+}
+
+#aboutUs img:hover, #blogs img:hover, #contactUs img:hover {
+    -webkit-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    transform: scale(1.2);
+    transition: 1s ease;
 }
 
 #aboutUs a:hover, #blogs a:hover, #contactUs a:hover {
@@ -213,8 +236,39 @@ h2 {
 }
 
 #content {
-    width: 80%;
+    width: 70%;
     margin: auto;
     padding-top: 50px;
     padding-bottom: 50px;
+    display: flex;
+}
+
+#aboutUs, #blogs, #contactUs {
+    padding-right: 70px;
+}
+
+h2 a {
+    color: #DA291C;
+}
+
+h2 a:hover {
+    color: #DA291C;
+}
+
+fieldset a {
+    color: #DA291C;
+    font-size: 1.3rem;
+}
+
+fieldset a:hover {
+    text-decoration: none;
+    color:#DA291C;
+    font-style: italic;
+}
+
+#results ul h2 {
+    width: 80%;
+    margin: auto;
+    padding-top: 30px;
+    padding-bottom: 30px;
 }

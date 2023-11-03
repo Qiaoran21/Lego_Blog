@@ -8,7 +8,7 @@
 
 ****************/
 
-require('connect.php');
+// require('connect.php');
 include('nav.php');
 
 // Retrieve the post to be edited/deleted

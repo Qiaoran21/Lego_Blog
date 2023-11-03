@@ -8,7 +8,7 @@
 
 ****************/
 
-require('connect.php');
+// require('connect.php');
 
 ?>
 
@@ -28,27 +28,31 @@ require('connect.php');
     <div id="header">
         <h1><a href="index.php">Bricks</a></h1>
     </div>
-    
+
     <?php include('nav.php') ?>
 
     <div id="content">
         <div id="aboutUs">
-            <img src="images/white_lego.jpg" alt="white lego bricks">
+            <a href="about.php">
+                <img src="images/white_lego.jpg" alt="white lego bricks">
+            </a> 
             <h2><a href="about.php">About Us</a></h2>
         </div>
 
         <div id="blogs">
-            <img src="images/lego_heads.jpg" alt="lego heads">
+            <a href="list.php">
+                <img src="images/lego_heads.jpg" alt="lego heads">
+            </a>    
             <h2><a href="list.php">Blogs</a></h2>
         </div>
 
         <div id="contactUs">
-            <img src="images/red_black_lego.jpg" alt="red and black lego bricks">
+            <a href="contact.php">
+                <img src="images/red_black_lego.jpg" alt="red and black lego bricks">
+            </a>
             <h2><a href="contact.php">Contact Us</a></h2>
         </div>
     </div>
-
-    
 
     <footer>
         <p>Copyright © 2023 Bricks. All rights reserved.</p>

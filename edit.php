@@ -8,7 +8,7 @@
 
 ****************/
 
-require('connect.php');
+// require('connect.php');
 require('authentication.php');
 include('nav.php');
 
