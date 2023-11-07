@@ -309,3 +309,25 @@ fieldset a:hover {
     color: #008F9B;
     font-weight: bold;
 }
+
+#tags {
+    width: 80%;
+    margin: auto;
+    padding-top: 30px;
+}
+
+#tag {
+    padding-top: 10px;
+}
+
+#tag a {
+    text-decoration: none;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.5rem;
+    color: #DA291C;
+    font-weight: bold;
+}
+
+#tag a:hover {
+    font-style: italic;
+}

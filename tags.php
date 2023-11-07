@@ -3,7 +3,7 @@
 /*******w******** 
     
     Name: Qiaoran Xue
-    Date: 2023-10-30
+    Date: 2023-11-06
     Description: Final Project - Bricks CMS.
 
 ****************/
@@ -12,22 +12,24 @@
 require('authentication.php');
 include('nav.php');
 
+$query = "SELECT * FROM tags ORDER BY tag_id";
 
-if ($_POST && !empty($_POST['title']) && !empty($_POST['content'])) {
-    $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $statement = $db->prepare($query);
+    $statement->execute(); 
+
+
+if ($_POST && !empty($_POST['name'])) {
+    $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     
-    $query = "INSERT INTO posts (title, content) VALUES (:title, :content)";
+    $query = "INSERT INTO tags (name) VALUES (:name)";
     $statement = $db->prepare($query);
     
-    $statement->bindValue(":title", $title);
-    $statement->bindValue(":content", $content);
+    $statement->bindValue(":name", $name);
     
     if($statement->execute()){
         header("Location: index.php");
     }
 }
-
 ?>
 
 
@@ -42,26 +44,31 @@ if ($_POST && !empty($_POST['title']) && !empty($_POST['content'])) {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
             integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="styles.css" />
-    <title>Bricks - New Post</title>
+    <title>Bricks - Categories</title>
 </head>
 <body>
     <div id="header">
-        <h1><a href="index.php">New Post</a></h1>
+        <h1><a href="index.php">Categories</a></h1>
     </div>    
 
-    <form method="post" action="insert.php" id="post">
-        <div id="post_title">
-            <input id="title" name="title" placeholder="Title">
-        </div>
-        
-        <div id="post_content">
-            <textarea name="content" cols="100" rows="17" placeholder="Write here..."></textarea>
+    <div id="tags">
+        <?php while($row = $statement->fetch()): ?>
+            <div id="tag">
+                <a href="tags.php?tag_id=<?= $row['tag_id'] ?>"><?= $row['name'] ?></a> 
+            </div> 
+        <?php endwhile ?>
+    </div>
+
+    <form method="post" action="tags.php" id="post">
+        <div id="name">
+            <input id="name" name="name" placeholder="New Categorey...">
         </div>
         
         <div>
             <input type="submit">
         </div>
     </form>
+
     <footer>
         <p>Copyright © 2023 Bricks. All rights reserved.</p>
     </footer>
