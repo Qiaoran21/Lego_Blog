@@ -3,22 +3,29 @@
 /*******w******** 
     
     Name: Qiaoran Xue
-    Date: 2023-11-02
+    Date: 2023-11-06
     Description: Final Project - Bricks CMS.
 
 ****************/
 
-// require('connect.php');
 include('nav.php');
 
-if(isset($_POST['submit']) && !empty($_POST['key'])) {
-    $key= filter_input(INPUT_POST, 'key', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+if(isset($_GET['tag_id'])) {
+    $tag_id= filter_input(INPUT_GET, 'tag_id', FILTER_SANITIZE_NUMBER_INT);
 
-    $key = $_POST['key'];
-    $query = "SELECT * FROM posts WHERE title LIKE :keyword OR content LIKE :keyword ORDER BY created_date DESC";
+    $query = "SELECT name FROM tags WHERE tag_id = :tag_id";
     $statement = $db->prepare($query);
 
-    $statement->bindValue(":keyword", '%'.$key.'%');
+    $statement->bindValue(":tag_id", $tag_id);
+    $statement->execute();
+
+    $tag = $statement->fetch(); 
+    $tag_name = $tag['name'];
+
+    $query = "SELECT * FROM posts WHERE tag_id = :tag_id";
+    $statement = $db->prepare($query);
+
+    $statement->bindValue(":tag_id", $tag_id);
     $statement->execute();
 
     $results = $statement->fetchAll();
@@ -39,11 +46,11 @@ if(isset($_POST['submit']) && !empty($_POST['key'])) {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
             integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="styles.css" rel="stylesheet">
-    <title>Bricks - Let's talk about Lego!</title>
+    <title>Bricks - <?= $tag_name ?> Posts</title>
 </head>
 <body>
     <div id="header">
-        <h1><a href="index.php">Search Result</a></h1>
+        <h1><a href="index.php"><?= $tag_name ?> Posts</a></h1>
     </div>
 
     <div id="results">
@@ -51,10 +58,10 @@ if(isset($_POST['submit']) && !empty($_POST['key'])) {
             <?php if ($rows != 0): ?>
                 <?php foreach ($results as $result): ?>
                     <li><h2><a href="show_post.php?post_id=<?= $result['post_id'] ?>"><?= $result['title'] ?></a></h2></li>
-                <?php endforeach; ?>
+                    <?php endforeach; ?>
             <?php else: ?>
                 <div id="nothingFound">
-                    <h2><?= 'Nothing found!  Please search again.' ?></h2>
+                    <h2><?= 'Nothing found!' ?></h2>
                     <img src="images/sad.jpg" alt="sad lego">
                 </div>   
             <?php endif; ?>

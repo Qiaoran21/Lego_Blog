@@ -8,7 +8,6 @@
 
 ****************/
 
-// require('connect.php');
 require('authentication.php');
 include('nav.php');
 
@@ -27,7 +26,7 @@ if ($_POST && !empty($_POST['name'])) {
     $statement->bindValue(":name", $name);
     
     if($statement->execute()){
-        header("Location: index.php");
+        header("Location: tags.php");
     }
 }
 ?>
@@ -54,7 +53,7 @@ if ($_POST && !empty($_POST['name'])) {
     <div id="tags">
         <?php while($row = $statement->fetch()): ?>
             <div id="tag">
-                <a href="tags.php?tag_id=<?= $row['tag_id'] ?>"><?= $row['name'] ?></a> 
+                <a href="show_tag.php?tag_id=<?= $row['tag_id'] ?>"><?= $row['name'] ?></a> 
             </div> 
         <?php endwhile ?>
     </div>

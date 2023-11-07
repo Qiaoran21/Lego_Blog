@@ -8,7 +8,6 @@
 
 ****************/
 
-// require('connect.php');
 include('nav.php');
 
 $query = "SELECT * FROM posts ORDER BY created_date DESC LIMIT 5";
@@ -38,7 +37,7 @@ $query = "SELECT * FROM posts ORDER BY created_date DESC LIMIT 5";
         <?php while($row = $statement->fetch()): ?>
             <div class="post">
                 <div class="post_title">
-                    <a href="show.php?post_id=<?= $row['post_id'] ?>"><?= $row['title'] ?></a> 
+                    <a href="show_post.php?post_id=<?= $row['post_id'] ?>"><?= $row['title'] ?></a> 
                 </div> 
 
                 <?= date('F j, Y, h:i A', strtotime($row['created_date'])) ?>
@@ -46,7 +45,7 @@ $query = "SELECT * FROM posts ORDER BY created_date DESC LIMIT 5";
                 <div class="post_content">
                     <?= mb_strimwidth($row['content'], 0, 200, "...") ?>
                     <?php if(strlen($row['content']) >= 200): ?> 
-                        <a href="show.php?post_id=<?= $row['post_id'] ?>"> read more</a>
+                        <a href="show_post.php?post_id=<?= $row['post_id'] ?>"> read more</a>
                     <?php endif ?>
                 </div>
             </div>
