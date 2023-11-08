@@ -35,23 +35,25 @@ $categories = $db->query($query)->fetchAll();
         <li><a href="insert.php">New Post</a></li>
         <li><a href="contact.php">Contact Us</a></li> 
         <li><a href="login.php">Login</a></li> 
+        <li>
         <form action="searchResult.php" method="post">
-        <div id="searchBar">
+            <div id="searchBar">
                 <div>
-                <select name="tag_id" id="tag_id">
+                    <select name="tag_id" id="tag_id">
                         <option value="" selected disabled hidden>Categories</option>
-                        <option value="" >All Categories</option>
+                        <option value="" >All</option>
                         <?php foreach ($categories as $category): ?>
                             <option value="<?= $category['tag_id'] ?>"><?= $category['name'] ?></option>
                         <?php endforeach; ?>
                     </select>
-                        </div>
+                </div>
                     
                 <div><input type="text" placeholder="Search..." name="key"></div>
 
-                <div><input type="submit" value="submit" name="submit"></div>
-            </form>
-        </div>
+                <div><input id="nav_button" type="submit" value="submit" name="submit"></div>
+            </div>
+        </form>
+        </li>
     </ul>
     </nav>
 </body>

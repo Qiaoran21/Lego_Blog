@@ -33,15 +33,6 @@ $tags = $statement->fetchAll();
     $post_id = false;
 }
 
-// $query = "SELECT * FROM tags";
-
-// $statement = $db->prepare($query);
-// $statement->execute(); 
-// $tags = $statement->fetch();
-
-
-
-
 ?>
 
 <!DOCTYPE html>

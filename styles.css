@@ -78,7 +78,6 @@ nav ul li {
 }
 
 nav ul li a {
-    width: 150px;
     display: block;
     padding: 10px 10px;
     text-transform: uppercase;
@@ -94,6 +93,10 @@ nav ul li a:hover {
     font-weight: bold;
     text-decoration: none;
     color: black;
+}
+
+#nav_button {
+    color: #008F9B;
 }
 
 #tag_id {
@@ -128,6 +131,7 @@ form {
     padding-top: 30px;
     font-family: 'Quicksand', sans-serif;
     color: #DA291C;
+    text-align: center;
 }
 
 #posts .post_content {
@@ -234,9 +238,23 @@ h2 {
     padding-bottom: 30px;
 }
 
+#edit textarea {
+    margin: 0%;
+    padding: 0%;
+}
+
 #edit #title {
     width: 500px;
     height: 30px;
+}
+
+#edit_buttons {
+    padding-top: 20px;
+}
+
+#edit_buttons button {
+    border: none;
+    color: #008F9B;
 }
 
 #error_message {
@@ -333,6 +351,15 @@ fieldset a:hover {
     width: 80%;
     margin: auto;
     padding-bottom: 30px;
+}
+
+#edit_cate_button {
+    padding: 30px 150px  20px;
+}
+
+#edit_cate_button button{
+    border: none;
+    color: #008F9B;
 }
 
 #tag {

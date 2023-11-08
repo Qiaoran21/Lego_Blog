@@ -49,18 +49,9 @@ if ($_POST && !empty($_POST['name'])) {
         <h1><a href="index.php">Categories</a></h1>
     </div>    
 
-    <form method="post" action="tags.php" id="post">
-        <div id="new_tag">
-            <div id="name">
-                <input id="name" name="name" placeholder="New Categorey...">
-            </div>
-            
-            <div>
-                <input type="submit">
-            </div>
-        </div>
-        
-    </form>
+    <div id="edit_cate_button">
+        <a href="edit_tags.php"><button>Edit Categories</button></a>
+    </div>
 
     <div id="tags">
         <?php while($row = $statement->fetch()): ?>
@@ -70,6 +61,7 @@ if ($_POST && !empty($_POST['name'])) {
         <?php endwhile ?>
     </div>
 
+    
     
 
     <footer>

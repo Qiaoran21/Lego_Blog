@@ -3,7 +3,7 @@
 /*******w******** 
     
     Name: Qiaoran Xue
-    Date: 2023-10-30
+    Date: 2023-11-08
     Description: Final Project - Bricks CMS.
 
 ****************/
@@ -71,44 +71,45 @@ else if(isset($_GET['post_id'])) {
 } else {
     $post_id = false;
 }
-
-$query = "SELECT tag_id, name FROM tags";
-$categories = $db->query($query)->fetchAll();
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <title>Edit Post</title>
+    <link rel="icon" type="image/icon" href="favicon-32x32.png">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <title>Bricks - Edit Categories</title>
 </head>
 <body>
-    <div id="header">    
-        <h1 id="header"><a href="index.php">Edit: <?= $posts['title'] ?></a></h1>
-    </div>
-        
-    <?php if($post_id): ?> 
-        <form method="post" id="edit">
-            <p><input type="hidden" name="post_id" value="<?= $posts['post_id'] ?>"></p>
+    <div id="header">
+        <h1><a href="index.php">Edit Categories</a></h1>
+    </div>    
 
-            <p><h2><label for="title">Title</label></h2></p>
-            <p><input id="title" name="title" value="<?= $posts['title'] ?>"></p>
-        
-            <div id="drop_down">
-                <p><h2><label for="tag_id">Categorey</label></h2></p>
-                <select name="tag_id" id="edit_tag_id">
-                    <?php foreach ($categories as $category): ?>
-                        <option value="<?= $category['tag_id'] ?>"><?= $category['name'] ?></option>
-                    <?php endforeach; ?>
-                </select>
+    <form method="post" action="tags.php" id="post">
+        <div id="new_tag">
+            <div id="name">
+                <input id="name" name="name" placeholder="New Categorey...">
             </div>
+            
+            <div>
+                <input type="submit">
+            </div>
+        </div>
+    </form>
 
-            <p><h2><label for="content">Content</label></h2></p>
-            <textarea name="content" id="content" cols="100" rows="17"><?= $posts['content'] ?></textarea>
+    <?php if($tag_id): ?> 
+        <form method="post" id="edit_tags">
+            <p><input type="hidden" name="tag_id" value="<?= $tags['tag_id'] ?>"></p>
+
+            <p><h2><label for="name">Categorey Name</label></h2></p>
+            <p><input id="name" name="name" value="<?= $tags['name'] ?>"></p>
                 
             <div id="edit_buttons">
                 <button type="submit" name="edit" value="edit">Update</button>
@@ -116,6 +117,7 @@ $categories = $db->query($query)->fetchAll();
             </div>
         </form>
     <?php endif ?>
+
     <footer>
         <p>Copyright © 2023 Bricks. All rights reserved.</p>
     </footer>
