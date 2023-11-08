@@ -10,7 +10,7 @@
 
 include('nav.php');
 
-$query = "SELECT * FROM posts ORDER BY created_date DESC LIMIT 5";
+$query = "SELECT * FROM posts ORDER BY created_date DESC";
 
     $statement = $db->prepare($query);
     $statement->execute(); 

@@ -65,7 +65,6 @@ $categories = $db->query($query)->fetchAll();
                     <option value="<?= $category['tag_id'] ?>"><?= $category['name'] ?></option>
                 <?php endforeach; ?>
             </select>
-            
         </div>
 
         <div id="post_content">

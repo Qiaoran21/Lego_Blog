@@ -150,6 +150,10 @@ fieldset .post a:hover {
     font-style: italic;
 }
 
+fieldset #post_tag a {
+    color: #DA291C;
+}
+
 fieldset .post .post_content {
     padding-top: 10px;
     padding-bottom: 10px;
@@ -213,6 +217,8 @@ h2 {
 #edit {
     width: 80%;
     margin: auto;
+    padding-top: 30px;
+    padding-bottom: 30px;
 }
 
 #edit #title {
