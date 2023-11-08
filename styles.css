@@ -96,10 +96,19 @@ nav ul li a:hover {
     color: black;
 }
 
+#tag_id {
+    border: none;
+    height: 26px;
+    color: #008F9B;
+}
+
+#searchBar {
+    display:inline-flex;
+}
+
 #menu input {
     float: right;
     border: none;
-    border-radius: 10px;
 }
 
 #menu input:focus {
@@ -210,8 +219,12 @@ h2 {
 #post {
     width: 80%;
     margin: auto;
-    padding: 30px;
-    display: block;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+#new_tag {
+    display: inline-flex;
 }
 
 #edit {
@@ -319,7 +332,7 @@ fieldset a:hover {
 #tags {
     width: 80%;
     margin: auto;
-    padding-top: 30px;
+    padding-bottom: 30px;
 }
 
 #tag {

@@ -8,7 +8,6 @@
 
 ****************/
 
-// require('connect.php');
 include('nav.php');
 
 if(isset($_POST['submit']) && !empty($_POST['key'])) {

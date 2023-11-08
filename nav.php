@@ -9,7 +9,8 @@
 ****************/
 require 'connect.php';
 
-
+$query = "SELECT tag_id, name FROM tags";
+$categories = $db->query($query)->fetchAll();
 ?>
 
 
@@ -34,10 +35,21 @@ require 'connect.php';
         <li><a href="insert.php">New Post</a></li>
         <li><a href="contact.php">Contact Us</a></li> 
         <li><a href="login.php">Login</a></li> 
+        <form action="searchResult.php" method="post">
         <div id="searchBar">
-            <form action="searchResult.php" method="post">
-                <li><input type="text" placeholder="Search..." name="key"></li>
-                <li><input type="submit" value="submit" name="submit"></li>
+                <div>
+                <select name="tag_id" id="tag_id">
+                        <option value="" selected disabled hidden>Categories</option>
+                        <option value="" >All Categories</option>
+                        <?php foreach ($categories as $category): ?>
+                            <option value="<?= $category['tag_id'] ?>"><?= $category['name'] ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                        </div>
+                    
+                <div><input type="text" placeholder="Search..." name="key"></div>
+
+                <div><input type="submit" value="submit" name="submit"></div>
             </form>
         </div>
     </ul>

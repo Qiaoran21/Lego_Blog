@@ -8,7 +8,6 @@
 
 ****************/
 
-require('authentication.php');
 include('nav.php');
 
 $query = "SELECT * FROM tags ORDER BY tag_id";
@@ -50,6 +49,19 @@ if ($_POST && !empty($_POST['name'])) {
         <h1><a href="index.php">Categories</a></h1>
     </div>    
 
+    <form method="post" action="tags.php" id="post">
+        <div id="new_tag">
+            <div id="name">
+                <input id="name" name="name" placeholder="New Categorey...">
+            </div>
+            
+            <div>
+                <input type="submit">
+            </div>
+        </div>
+        
+    </form>
+
     <div id="tags">
         <?php while($row = $statement->fetch()): ?>
             <div id="tag">
@@ -58,15 +70,7 @@ if ($_POST && !empty($_POST['name'])) {
         <?php endwhile ?>
     </div>
 
-    <form method="post" action="tags.php" id="post">
-        <div id="name">
-            <input id="name" name="name" placeholder="New Categorey...">
-        </div>
-        
-        <div>
-            <input type="submit">
-        </div>
-    </form>
+    
 
     <footer>
         <p>Copyright © 2023 Bricks. All rights reserved.</p>
