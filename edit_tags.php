@@ -123,7 +123,7 @@ else if(isset($_GET['tag_id'])) {
     <div id="tags">
         <?php while($row = $statement->fetch()): ?>
             <div id="tag">
-                <a href="show_tag.php?tag_id=<?= $row['tag_id'] ?>"><?= $row['name'] ?></a><a href="tag.php?tag_id=<?= $row['tag_id'] ?>"> edit</a>
+                <a href="show_tag.php?tag_id=<?= $row['tag_id'] ?>"><?= $row['name'] ?></a><a id="tag_edit_link" href="tag.php?tag_id=<?= $row['tag_id'] ?>"> edit</a>
             </div> 
         <?php endwhile ?>
     </div>

@@ -12,12 +12,25 @@ include('nav.php');
 
 if(isset($_POST['submit']) && !empty($_POST['key'])) {
     $key= filter_input(INPUT_POST, 'key', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $tag_id= filter_input(INPUT_POST, 'tag_id', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
     $key = $_POST['key'];
-    $query = "SELECT * FROM posts WHERE title LIKE :keyword OR content LIKE :keyword ORDER BY created_date DESC";
-    $statement = $db->prepare($query);
 
-    $statement->bindValue(":keyword", '%'.$key.'%');
+    if (isset($_POST['tag_id'])) {
+        $query = "SELECT * FROM posts WHERE title LIKE :keyword AND tag_id = :tag_id ORDER BY created_date DESC";
+        
+        $statement = $db->prepare($query);
+
+        $statement->bindValue(":keyword", '%'.$key.'%');
+        $statement->bindValue(":tag_id", $tag_id);
+    } else {
+        $query = "SELECT * FROM posts WHERE title LIKE :keyword ORDER BY created_date DESC";
+        
+        $statement = $db->prepare($query);
+
+        $statement->bindValue(":keyword", '%'.$key.'%');
+    }
+
     $statement->execute();
 
     $results = $statement->fetchAll();
@@ -53,7 +66,7 @@ if(isset($_POST['submit']) && !empty($_POST['key'])) {
                 <?php endforeach; ?>
             <?php else: ?>
                 <div id="nothingFound">
-                    <h2><?= 'Nothing found!  Please search again.' ?></h2>
+                    <h2><?= 'Oops... Nothing found! ' ?></h2>
                     <img src="images/sad.jpg" alt="sad lego">
                 </div>   
             <?php endif; ?>

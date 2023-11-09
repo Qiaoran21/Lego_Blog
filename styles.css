@@ -358,6 +358,16 @@ fieldset a:hover {
     padding-bottom: 30px;
 }
 
+#edit_tags {
+    padding-bottom: 30px;
+    width: 80%;
+    margin: auto;
+}
+
+#tag #tag_edit_link {
+    color: #008F9B;
+}
+
 #edit_cate_button {
     padding: 30px 150px  20px;
 }
