@@ -31,9 +31,7 @@ if ($_POST && !empty($_POST['title']) && !empty($_POST['content']) && !empty($_P
 
 $query = "SELECT tag_id, name FROM tags";
 $categories = $db->query($query)->fetchAll();
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">

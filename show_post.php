@@ -20,12 +20,10 @@ $statement->bindValue(':post_id', $post_id);
 $statement->execute();
 $posts = $statement->fetch();
 
-
 $query = "SELECT t.name FROM tags AS t JOIN posts AS p ON t.tag_id = p.tag_id WHERE p.post_id = :post_id";
 
 $statement = $db->prepare($query);
 $statement->bindValue(':post_id', $post_id);
-
 
 $statement->execute();
 $tags = $statement->fetchAll();

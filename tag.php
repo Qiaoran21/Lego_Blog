@@ -14,32 +14,31 @@ include('nav.php');
 // Update button
 if (isset($_POST['edit'])) {
     if (isset($_POST['tag_id']) && isset($_POST['name'])) {
-            $tag_id = filter_input(INPUT_POST, 'tag_id', FILTER_SANITIZE_NUMBER_INT);
-            $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            
-            $query = "UPDATE tags SET name = :name WHERE tag_id = :tag_id";
-            $statement = $db->prepare($query);
-            
-            $statement->bindValue(":tag_id", $tag_id);
-            $statement->bindValue(":name", $name);
+        $tag_id = filter_input(INPUT_POST, 'tag_id', FILTER_SANITIZE_NUMBER_INT);
+        $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         
-            if(!empty($name)) {
-                $statement->execute();
-                header("Location: tags.php");
-            } else {
-                header("Location: process.php");
-            }
-
-        } else if (isset($_GET['tag_id'])) {
-            $tag_id = filter_input(INPUT_GET, 'tag_id', FILTER_SANITIZE_NUMBER_INT);
+        $query = "UPDATE tags SET name = :name WHERE tag_id = :tag_id";
+        $statement = $db->prepare($query);
         
-            $query = "SELECT * FROM tags WHERE tag_id = :tag_id";
-            $statement = $db->prepare($query);
-            $statement->bindValue(':tag_id', $tag_id);
-            
+        $statement->bindValue(":tag_id", $tag_id);
+        $statement->bindValue(":name", $name);
+    
+        if(!empty($name)) {
             $statement->execute();
-            $posts = $statement->fetch();
+            header("Location: tags.php");
+        } else {
+            header("Location: process.php");
         }
+    } else if (isset($_GET['tag_id'])) {
+        $tag_id = filter_input(INPUT_GET, 'tag_id', FILTER_SANITIZE_NUMBER_INT);
+    
+        $query = "SELECT * FROM tags WHERE tag_id = :tag_id";
+        $statement = $db->prepare($query);
+        $statement->bindValue(':tag_id', $tag_id);
+        
+        $statement->execute();
+        $posts = $statement->fetch();
+    }
 }
 
 // Delete button
@@ -67,7 +66,6 @@ else if(isset($_GET['tag_id'])) {
     $tag_id = false;
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
