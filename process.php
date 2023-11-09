@@ -8,7 +8,8 @@
 
 ****************/
 
-// include('nav.php');
+include('nav.php');
+
 ?>
 
 <!DOCTYPE html>

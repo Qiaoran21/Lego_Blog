@@ -99,6 +99,10 @@ nav ul li a:hover {
     color: #008F9B;
 }
 
+#search_box {
+    width: 100px;
+}
+
 #tag_id {
     border: none;
     height: 26px;
@@ -107,6 +111,7 @@ nav ul li a:hover {
 
 #searchBar {
     display:inline-flex;
+    padding-right: 10px;
 }
 
 #menu input {

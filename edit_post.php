@@ -99,7 +99,7 @@ $categories = $db->query($query)->fetchAll();
             <p><input id="title" name="title" value="<?= $posts['title'] ?>"></p>
         
             <div id="drop_down">
-                <p><h2><label for="tag_id">Categorey</label></h2></p>
+                <p><h2><label for="tag_id">Category</label></h2></p>
                 <select name="tag_id" id="edit_tag_id">
                     <?php foreach ($categories as $category): ?>
                         <option value="<?= $category['tag_id'] ?>"><?= $category['name'] ?></option>

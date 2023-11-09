@@ -8,21 +8,8 @@
 
 ****************/
 
-// require('connect.php');
 include('nav.php');
 
-// if (isset($_GET['post_id'])) {
-//     $post_id = filter_input(INPUT_GET, 'post_id', FILTER_SANITIZE_NUMBER_INT);
-
-//     $query = "SELECT * FROM posts WHERE post_id = :post_id";
-//     $statement = $db->prepare($query);
-//     $statement->bindValue(':post_id', $post_id);
-    
-//     $statement->execute();
-//     $posts = $statement->fetch();
-// } else {
-//     $post_id = false;
-// }
 ?>
 
 <!DOCTYPE html>

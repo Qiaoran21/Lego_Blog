@@ -40,7 +40,7 @@ $categories = $db->query($query)->fetchAll();
             <div id="searchBar">
                 <div>
                     <select name="tag_id" id="tag_id">
-                        <option value="" selected disabled hidden>Categories</option>
+                        <option value="" selected disabled hidden>All</option>
                         <option value="" >All</option>
                         <?php foreach ($categories as $category): ?>
                             <option value="<?= $category['tag_id'] ?>"><?= $category['name'] ?></option>
@@ -48,7 +48,7 @@ $categories = $db->query($query)->fetchAll();
                     </select>
                 </div>
                     
-                <div><input type="text" placeholder="Search..." name="key"></div>
+                <div><input id="search_box" type="text" placeholder="Search..." name="key"></div>
 
                 <div><input id="nav_button" type="submit" value="submit" name="submit"></div>
             </div>

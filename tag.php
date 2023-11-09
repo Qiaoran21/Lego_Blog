@@ -11,27 +11,6 @@
 require('authentication.php');
 include('nav.php');
 
-if (isset($_GET['tag_id'])) {
-    $tag_id = filter_input(INPUT_GET, 'tag_id', FILTER_SANITIZE_NUMBER_INT);
-    
-    $query = "SELECT * FROM tags WHERE tag_id = :tag_id";
-    $statement = $db->prepare($query);
-    $statement->bindValue(':tag_id', $tag_id);
-    
-    $statement->execute();
-    $tags = $statement->fetch();
-    
-
-    } else {
-        $tag_id = false;
-    }
-
-
-$query = "SELECT * FROM tags ORDER BY tag_id";
-
-    $statement = $db->prepare($query);
-    $statement->execute(); 
-
 // Update button
 if (isset($_POST['edit'])) {
     if (isset($_POST['tag_id']) && isset($_POST['name'])) {
@@ -101,34 +80,12 @@ else if(isset($_GET['tag_id'])) {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
             integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="styles.css" />
-    <title>Bricks - Edit Categories</title>
+    <title>Bricks - Update Category</title>
 </head>
 <body>
     <div id="header">
-        <h1><a href="index.php">Edit Category</a></h1>
+        <h1><a href="index.php">Update Category</a></h1>
     </div>    
-
-    <form method="post" action="tags.php" id="post">
-        <div id="new_tag">
-            <div id="name">
-                <input id="name" name="name" placeholder="New Category...">
-            </div>
-            
-            <div>
-                <input type="submit">
-            </div>
-        </div>
-    </form>
-
-    <div id="tags">
-        <?php while($row = $statement->fetch()): ?>
-            <div id="tag">
-                <a href="show_tag.php?tag_id=<?= $row['tag_id'] ?>"><?= $row['name'] ?></a><a href="tag.php?tag_id=<?= $row['tag_id'] ?>"> edit</a>
-            </div> 
-        <?php endwhile ?>
-    </div>
-
-    
 
     <?php if($tag_id): ?> 
         <form method="post" id="edit_tags">
