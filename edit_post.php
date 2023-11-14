@@ -70,20 +70,20 @@ else if(isset($_GET['post_id'])) {
 
 
     // !!!!!!!!!
-    $query = "SELECT t.name FROM tags AS t JOIN posts AS p ON t.tag_id = p.tag_id WHERE p.post_id = :post_id";
+    // $query = "SELECT t.name FROM tags AS t INNER JOIN posts AS p ON t.tag_id = p.tag_id WHERE p.post_id = :post_id";
 
-    $statement = $db->prepare($query);
-    $statement->bindValue(':post_id', $post_id);
+    // $statement = $db->prepare($query);
+    // $statement->bindValue(':post_id', $post_id);
 
-    $statement->execute();
-    $tags = $statement->fetchAll();
+    // $statement->execute();
+    // $tags = $statement->fetchAll();
 
 } else {
     $post_id = false;
 }
 
-$query = "SELECT tag_id, name FROM tags";
-$categories = $db->query($query)->fetchAll();
+// $query = "SELECT tag_id, name FROM tags";
+// $categories = $db->query($query)->fetchAll();
 
 ?>
 
@@ -100,8 +100,12 @@ $categories = $db->query($query)->fetchAll();
     <div id="header">    
         <h1 id="header"><a href="index.php">Edit: <?= $posts['title'] ?></a></h1>
     </div>
-        
-<!-- <pre><?php print_r ($category) ?></pre> -->
+      
+<!-- testing -->
+<!-- <pre><?php print_r ($categories) ?></pre> -->
+
+
+
 
     <?php if($post_id): ?> 
         <form method="post" id="edit">
