@@ -60,10 +60,7 @@ if ($_POST && !empty($_POST['name'])) {
             </div> 
         <?php endwhile ?>
     </div>
-
     
-    
-
     <footer>
         <p>Copyright © 2023 Bricks. All rights reserved.</p>
     </footer>

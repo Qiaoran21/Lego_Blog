@@ -55,7 +55,7 @@ $tags = $statement->fetchAll();
 
         <?php if($post_id): ?>
 
-        <form method="post">
+        <form method="post" id="post">
             <fieldset>
                 <?= date('F j, Y, h:i A', strtotime($posts['created_date'])) ?><a href="edit_post.php?post_id=<?= $posts['post_id'] ?>"> edit</a>
 
@@ -68,10 +68,26 @@ $tags = $statement->fetchAll();
                 <div class="post_content">
                     <?= $posts['content'] ?>
                 </div>
+
+                <div id="comments">
+                    <h3>Comments:</h3>
+                    
+                </div>
             </fieldset>
         </form>
         <?php endif ?>
     </div>
+
+    <form method="post" id="comment">
+        <label for="">Name:</label>
+        <input type="text">
+
+        <label for="">Comment:</label>
+        <textarea name="comment" id="comment" cols="30" rows="3"></textarea>
+
+        <input type="submit" name='submit' value='Submit'>
+    </form>
+
     <footer>
         <p>Copyright © 2023 Bricks. All rights reserved.</p>
     </footer>
