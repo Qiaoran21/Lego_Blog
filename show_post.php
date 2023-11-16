@@ -11,24 +11,51 @@
 include('nav.php');
 
 if (isset($_GET['post_id'])) {
-$post_id = filter_input(INPUT_GET, 'post_id', FILTER_SANITIZE_NUMBER_INT);
+    $post_id = filter_input(INPUT_GET, 'post_id', FILTER_SANITIZE_NUMBER_INT);
 
-$query = "SELECT * FROM posts WHERE post_id = :post_id";
-$statement = $db->prepare($query);
-$statement->bindValue(':post_id', $post_id);
+    // fetch all post info
+    $query = "SELECT * FROM posts WHERE post_id = :post_id";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':post_id', $post_id);
 
-$statement->execute();
-$posts = $statement->fetch();
+    $statement->execute();
+    $posts = $statement->fetch();
 
-$query = "SELECT t.name FROM tags AS t JOIN posts AS p ON t.tag_id = p.tag_id WHERE p.post_id = :post_id";
+    // fetch all comments for post
+    $query = "SELECT c.comment FROM comments AS c JOIN posts AS p ON c.post_id = p.post_id WHERE p.post_id = :post_id ORDER BY c.created_date DESC";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':post_id', $post_id);
 
-$statement = $db->prepare($query);
-$statement->bindValue(':post_id', $post_id);
+    $statement->execute();
+    $comments = $statement->fetchAll();
 
-$statement->execute();
-$tags = $statement->fetchAll();
+    // fetch tag for post
+    $query = "SELECT t.name FROM tags AS t JOIN posts AS p ON t.tag_id = p.tag_id WHERE p.post_id = :post_id";
+
+    $statement = $db->prepare($query);
+    $statement->bindValue(':post_id', $post_id);
+
+    $statement->execute();
+    $tags = $statement->fetchAll();
 } else {
     $post_id = false;
+}
+
+// submit new comment
+if (isset($_POST['submit'])) {
+    $user_id = $_POST['user_id']; 
+    $comment = $_POST['comment'];
+
+    $query = "INSERT INTO comments (post_id, user_id, comment) VALUES (:post_id, :user_id, :comment)";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':post_id', $post_id);
+    $statement->bindValue(':user_id', $user_id);
+    $statement->bindValue(':comment', $comment);
+    
+    if($statement->execute()) {
+        header("Location: show_post.php?post_id=$post_id");
+        exit();
+    }
 }
 
 ?>
@@ -71,7 +98,12 @@ $tags = $statement->fetchAll();
 
                 <div id="comments">
                     <h3>Comments:</h3>
-                    
+                    <?php foreach ($comments as $comment): ?>
+                        <div class="comment">
+                            
+                            <?= $comment['comment'] ?>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
             </fieldset>
         </form>
@@ -79,10 +111,10 @@ $tags = $statement->fetchAll();
     </div>
 
     <form method="post" id="comment">
-        <label for="">Name:</label>
-        <input type="text">
+        <label for="user_id">Name:</label>
+        <input type="text" id="user_id" name="user_id">
 
-        <label for="">Comment:</label>
+        <label for="comment">Comment:</label>
         <textarea name="comment" id="comment" cols="30" rows="3"></textarea>
 
         <input type="submit" name='submit' value='Submit'>
