@@ -99,15 +99,18 @@ if (isset($_POST['submit'])) {
                 </div>
 
                 <div id="comments">
-                    <h3>Comments:</h3>
+                    <h4>Comments:</h4>
                     <?php foreach ($comments as $comment): ?>
-                        <div class="comment">
-
-                        
-
-                            <?= $comment['user'] ?>    
-                            <?= $comment['created_date'] ?>
-                            <?= $comment['comment'] ?>
+                        <div id="comment">
+                            <div id="comment_author">
+                                <?= $comment['user'] ?> 
+                            </div>
+                            <div id="comment_date">
+                                <?= $comment['created_date'] ?>
+                            </div>
+                            <div id="comment_content">
+                                <?= $comment['comment'] ?>
+                            </div>
                         </div>
                     <?php endforeach; ?>
                 </div>
@@ -116,14 +119,18 @@ if (isset($_POST['submit'])) {
         <?php endif ?>
     </div>
 
-    <form method="post" id="comment">
-        <label for="user">Name:</label>
-        <input type="text" id="user" name="user">
-
-        <label for="comment">Comment:</label>
-        <textarea name="comment" id="comment" cols="30" rows="3"></textarea>
-
-        <input type="submit" name='submit' value='Submit'>
+    <form method="post" id="comment_input">
+        <div id="comment_input_author">
+            <input type="text" id="user" name="user" placeholder="Author">
+        </div>
+        
+        <div id="comment_input_content">
+            <textarea name="comment" id="comment" cols="50" rows="3" placeholder="Comment..."></textarea>
+        </div>
+        
+        <div id="comment_input_submit">
+            <input type="submit" name='submit' value='Submit'>
+        </div>
     </form>
 
     <footer>

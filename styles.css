@@ -392,3 +392,43 @@ fieldset a:hover {
 #tag a:hover {
     font-style: italic;
 }
+
+#post fieldset #comments {
+    padding-top: 30px;
+    
+}
+
+#post fieldset #comments h4 {
+    color: #008F9B;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: bold;
+}
+
+#comment {
+    padding-top: 15px;
+    padding-left: 20px;
+}
+
+#comment_date {
+    font-style: italic;
+    font-size: 0.8rem;
+}
+
+#comment_content {
+    font-family: 'Quicksand', sans-serif;
+}
+
+#comment_author {
+    color: #DA291C;
+}
+
+#comment_input {
+    padding-bottom: 30px;
+    width: 50%;
+    margin: auto;
+}
+
+#comment_input_content {
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
