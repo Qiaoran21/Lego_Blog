@@ -22,7 +22,7 @@ if (isset($_GET['post_id'])) {
     $posts = $statement->fetch();
 
     // fetch all comments for post
-    $query = "SELECT c.comment FROM comments AS c JOIN posts AS p ON c.post_id = p.post_id WHERE p.post_id = :post_id ORDER BY c.created_date DESC";
+    $query = "SELECT * FROM comments AS c JOIN posts AS p ON c.post_id = p.post_id WHERE p.post_id = :post_id ORDER BY c.created_date DESC";
     $statement = $db->prepare($query);
     $statement->bindValue(':post_id', $post_id);
 
@@ -43,18 +43,17 @@ if (isset($_GET['post_id'])) {
 
 // submit new comment
 if (isset($_POST['submit'])) {
-    $user_id = $_POST['user_id']; 
+    $user = $_POST['user'];
     $comment = $_POST['comment'];
 
-    $query = "INSERT INTO comments (post_id, user_id, comment) VALUES (:post_id, :user_id, :comment)";
+    $query = "INSERT INTO comments (post_id, user, comment) VALUES (:post_id, :user, :comment)";
     $statement = $db->prepare($query);
     $statement->bindValue(':post_id', $post_id);
-    $statement->bindValue(':user_id', $user_id);
+    $statement->bindValue(':user', $user);
     $statement->bindValue(':comment', $comment);
     
     if($statement->execute()) {
         header("Location: show_post.php?post_id=$post_id");
-        exit();
     }
 }
 
@@ -82,6 +81,9 @@ if (isset($_POST['submit'])) {
 
         <?php if($post_id): ?>
 
+            <!-- // testing!
+            <pre><?php print_r($comments) ?></pre> -->
+
         <form method="post" id="post">
             <fieldset>
                 <?= date('F j, Y, h:i A', strtotime($posts['created_date'])) ?><a href="edit_post.php?post_id=<?= $posts['post_id'] ?>"> edit</a>
@@ -100,7 +102,11 @@ if (isset($_POST['submit'])) {
                     <h3>Comments:</h3>
                     <?php foreach ($comments as $comment): ?>
                         <div class="comment">
-                            
+
+                        
+
+                            <?= $comment['user'] ?>    
+                            <?= $comment['created_date'] ?>
                             <?= $comment['comment'] ?>
                         </div>
                     <?php endforeach; ?>
@@ -111,8 +117,8 @@ if (isset($_POST['submit'])) {
     </div>
 
     <form method="post" id="comment">
-        <label for="user_id">Name:</label>
-        <input type="text" id="user_id" name="user_id">
+        <label for="user">Name:</label>
+        <input type="text" id="user" name="user">
 
         <label for="comment">Comment:</label>
         <textarea name="comment" id="comment" cols="30" rows="3"></textarea>
