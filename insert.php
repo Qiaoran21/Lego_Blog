@@ -70,8 +70,9 @@ $categories = $db->query($query)->fetchAll();
         </div>
 
         <div id="post_img">
-            <label for='image'>Select Image:</label>
-            <input type='file' name='image' id='image'>
+            <label for="image">Select Images:</label>
+            <!-- <input type="file" name="images[]" id="images" multiple> -->
+            <input type="file" name="image" id="image">
         </div>
         
         <div>

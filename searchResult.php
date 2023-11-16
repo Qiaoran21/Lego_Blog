@@ -13,8 +13,9 @@ include('nav.php');
 if(isset($_POST['submit']) && !empty($_POST['key'])) {
     $key= filter_input(INPUT_POST, 'key', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $tag_id= filter_input(INPUT_POST, 'tag_id', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-
     $key = $_POST['key'];
+
+    
 
     if (isset($_POST['tag_id'])) {
         $query = "SELECT * FROM posts WHERE title LIKE :keyword AND tag_id = :tag_id ORDER BY created_date DESC";
@@ -35,8 +36,28 @@ if(isset($_POST['submit']) && !empty($_POST['key'])) {
 
     $results = $statement->fetchAll();
     $rows = $statement->rowCount();
+
+    $number_per_page = 2;
+    $total_pages = ceil($rows / $number_per_page);
+
+    if (isset($_GET['page'])) {
+        $page = $_GET['page'];
+    }
+    else {
+        $page = 1;
+    }
+
+    $start_from = ($page-1)*$number_per_page;
+
+    $query = "SELECT * FROM posts WHERE title LIKE :keyword LIMIT $start_from, $number_per_page";
+    $statement = $db->prepare($query);
+    $statement->bindValue(":keyword", '%' . $key . '%');
+    $statement->execute();
+
+    $results = $statement->fetchAll();
 } else {
-    header("Location: index.php");
+    header("Location: searchResult.php?page=2");
+    exit();
 }
 
 ?>
@@ -69,6 +90,12 @@ if(isset($_POST['submit']) && !empty($_POST['key'])) {
                     <h2><?= 'Oops... Nothing found! ' ?></h2>
                     <img src="images/sad.jpg" alt="sad lego">
                 </div>   
+            <?php endif; ?>
+
+            <?php if ($total_pages > 1): ?>
+                <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                    <a href="searchResult.php?page=<?= $i ?>"><?= $i ?></a>
+                <?php endfor; ?>
             <?php endif; ?>
         </ul>
     </div>
