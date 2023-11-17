@@ -432,3 +432,38 @@ fieldset a:hover {
     padding-bottom: 20px;
     padding-top: 20px;
 }
+
+#account {
+    width: 50%;
+    margin: auto;
+    padding-top: 50px;
+}
+
+#account #user_name {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+#account #password {
+    padding-bottom: 20px;
+}
+
+#account #email {
+    padding-bottom: 20px;
+}
+
+#congrats_content {
+    display: flex;
+    width: 60%;
+    margin: auto;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+#congrats_img {
+    padding-left: 30px;
+}
+
+#congrats_message {
+    padding-top: 100px;
+}

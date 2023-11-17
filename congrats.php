@@ -23,32 +23,24 @@ include('nav.php');
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
             integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="styles.css" rel="stylesheet">
-    <title>Bricks - Account</title>
+    <title>Bricks - Congrats</title>
 </head>
 <body>
     <div id="header">
-        <h1><a href="index.php">Account</a></h1>
-    </div>
-    
-    <form method="post" action="index.php" id="account">
-        <h2>User Login</h2>
-        <div id="user_name">
-            <input id="userName" name="userName" placeholder="User Name">
-        </div>    
-        
-        <div id="password">
-            <input id="passWord" name="passWord" placeholder="Password">
-            
-        </div>
+        <h1><a href="index.php">Congratuations!</a></h1>
+    </div>    
 
+    <div id="congrats_content">
+        <div id="congrats_message">
+            <h2>🥳 You are now a Bricks member! </h2>
+        </div>
+        
         <div>
-            <a href="signUp.php">Create an account!</a>
+            <img id="congrats_img" src="images/congrats.jpg" alt="happy lego people" width="400">
         </div>
-                
-        <div id="account_submit">
-            <input type="submit">
-            
-        </div>
-    </form>
+    </div>
+    <footer>
+        <p>Copyright © 2023 Bricks. All rights reserved.</p>
+    </footer>
 </body>
 </html>
