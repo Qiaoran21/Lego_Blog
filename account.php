@@ -23,11 +23,11 @@ include('nav.php');
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
             integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="styles.css" rel="stylesheet">
-    <title>Bricks - Login</title>
+    <title>Bricks - Account</title>
 </head>
 <body>
     <div id="header">
-        <h1><a href="index.php">Member Login</a></h1>
+        <h1><a href="index.php">Account</a></h1>
     </div>
     
     <form method="post" action="index.php">

@@ -10,12 +10,11 @@
 
 include('nav.php');
 
+$total_pages = 0;
+
 if(isset($_POST['submit']) && !empty($_POST['key'])) {
     $key= filter_input(INPUT_POST, 'key', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $tag_id= filter_input(INPUT_POST, 'tag_id', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $key = $_POST['key'];
-
-    
 
     if (isset($_POST['tag_id'])) {
         $query = "SELECT * FROM posts WHERE title LIKE :keyword AND tag_id = :tag_id ORDER BY created_date DESC";
@@ -34,31 +33,42 @@ if(isset($_POST['submit']) && !empty($_POST['key'])) {
 
     $statement->execute();
 
+    $total_rows = $statement->rowCount();
+
+    // $number_per_page = 2;
+    // $total_pages = ceil($total_rows / $number_per_page);
+    
+
+    // if (isset($_GET['page'])) {
+    //     $page = $_GET['page'];
+    // }
+    // else {
+    //     $page = 1;
+    // }
+
+    // $start_from = ($page-1) * $number_per_page;
+
+    // $query = "SELECT * FROM posts WHERE title LIKE :keyword LIMIT $start_from, $number_per_page";
+    // $statement = $db->prepare($query);
+    // $statement->bindValue(":keyword", '%' . $key . '%');
+    // $statement->execute();
+
     $results = $statement->fetchAll();
-    $rows = $statement->rowCount();
 
-    $number_per_page = 2;
-    $total_pages = ceil($rows / $number_per_page);
+} 
+// else {
+//     header("Location: index.php");
+// }
 
-    if (isset($_GET['page'])) {
-        $page = $_GET['page'];
-    }
-    else {
-        $page = 1;
-    }
+// if (isset($_GET['page'])) {
+//     $query = "SELECT * FROM posts WHERE title LIKE :keyword LIMIT $page, $number_per_page";
+//     $statement = $db->prepare($query);
+//     $statement->bindValue(":keyword", '%' . $key . '%');
+//     $statement->execute();
 
-    $start_from = ($page-1)*$number_per_page;
-
-    $query = "SELECT * FROM posts WHERE title LIKE :keyword LIMIT $start_from, $number_per_page";
-    $statement = $db->prepare($query);
-    $statement->bindValue(":keyword", '%' . $key . '%');
-    $statement->execute();
-
-    $results = $statement->fetchAll();
-} else {
-    header("Location: searchResult.php?page=2");
-    exit();
-}
+//     $results = $statement->fetchAll();
+    
+// }
 
 ?>
 
@@ -81,7 +91,7 @@ if(isset($_POST['submit']) && !empty($_POST['key'])) {
 
     <div id="results">
         <ul>
-            <?php if ($rows != 0): ?>
+            <?php if (!empty($results)): ?>
                 <?php foreach ($results as $result): ?>
                     <li><h2><a href="show_post.php?post_id=<?= $result['post_id'] ?>"><?= $result['title'] ?></a></h2></li>
                 <?php endforeach; ?>
