@@ -7,32 +7,26 @@
     Description: Final Project - Bricks CMS.
 
 ****************/
+session_start();
 
 include('nav.php');
 
-session_start();
-
-if ($_POST && !empty($_POST['user_name']) && !empty($_POST['password']) && isset($_GET['user_id'])) {
+if ($_POST && !empty($_POST['user_name']) && !empty($_POST['password'])) {
     $user_name = filter_input(INPUT_POST, 'user_name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $user_id = filter_input(INPUT_GET, 'user_id', FILTER_VALIDATE_INT);
     
-    $query = "SELECT user_id, password FROM users WHERE user_id = :user_id";
+    $query = "SELECT * FROM users WHERE user_name = :user_name";
     $statement = $db->prepare($query);
     
-    $statement->bindValue(":user_id", $user_id);
+    $statement->bindValue(":user_name", $user_name);
 
     $statement->execute();
     $record = $statement->fetch();
     
-    if ($record && password_verify($password, $record['password'])) {
-        $_SESSION['login_message'] = "Login successful!";
-        header("Location: congrats.php");
-        exit();
+    if ($password === $record['password']) {
+        header("Location: login_success.php");
     } else {
-        $_SESSION['login_message'] = "Incorrect username or password :(";
-        header("Location: password_error.php");
-        exit();
+        header("Location: login_error.php");
     }   
 }
 
@@ -55,10 +49,6 @@ if ($_POST && !empty($_POST['user_name']) && !empty($_POST['password']) && isset
         <h1><a href="index.php">Account</a></h1>
     </div>
     
-    <?php if (isset($_SESSION['login_message'])): ?> 
-        <?= $_SESSION['login_message'] ?>
-    <?php endif ?>
-
     <form method="post" id="account">
         <h2>User Login</h2>
         <div id="user_name">
