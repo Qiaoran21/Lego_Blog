@@ -10,6 +10,31 @@
 
 include('nav.php');
 
+session_start();
+
+if ($_POST && !empty($_POST['user_name']) && !empty($_POST['password']) && isset($_GET['user_id'])) {
+    $user_name = filter_input(INPUT_POST, 'user_name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $user_id = filter_input(INPUT_GET, 'user_id', FILTER_VALIDATE_INT);
+    
+    $query = "SELECT user_id, password FROM users WHERE user_id = :user_id";
+    $statement = $db->prepare($query);
+    
+    $statement->bindValue(":user_id", $user_id);
+
+    $statement->execute();
+    $record = $statement->fetch();
+    
+    if ($record && password_verify($password, $record['password'])) {
+        $_SESSION['login_message'] = "Login successful!";
+        header("Location: congrats.php");
+        exit();
+    } else {
+        $_SESSION['login_message'] = "Incorrect username or password :(";
+        header("Location: password_error.php");
+        exit();
+    }   
+}
 
 ?>
 
@@ -30,14 +55,18 @@ include('nav.php');
         <h1><a href="index.php">Account</a></h1>
     </div>
     
-    <form method="post" action="index.php" id="account">
+    <?php if (isset($_SESSION['login_message'])): ?> 
+        <?= $_SESSION['login_message'] ?>
+    <?php endif ?>
+
+    <form method="post" id="account">
         <h2>User Login</h2>
         <div id="user_name">
-            <input id="userName" name="userName" placeholder="User Name">
+            <input id="user_name_input" name="user_name" placeholder="User Name">
         </div>    
         
         <div id="password">
-            <input id="passWord" name="passWord" placeholder="Password">
+            <input id="password_input" name="password" placeholder="Password" type="password">
             
         </div>
 
@@ -46,9 +75,12 @@ include('nav.php');
         </div>
                 
         <div id="account_submit">
-            <input type="submit">
+            <input id="submit" type="submit">
             
         </div>
     </form>
+    <footer>
+        <p>Copyright © 2023 Bricks. All rights reserved.</p>
+    </footer>
 </body>
 </html>
