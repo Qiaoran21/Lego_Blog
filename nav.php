@@ -11,6 +11,8 @@ require 'connect.php';
 
 $query = "SELECT tag_id, name FROM tags";
 $categories = $db->query($query)->fetchAll();
+
+
 ?>
 
 
@@ -34,7 +36,7 @@ $categories = $db->query($query)->fetchAll();
         <li><a href="tags.php">Categories</a></li>
         <li><a href="insert.php">New Post</a></li>
         <li><a href="contact.php">Contact Us</a></li> 
-        <li><a href="account.php">Account</a></li> 
+        <li><a href="login.php">Login</a></li> 
         <li>
         <form action="searchResult.php" method="post">
             <div id="searchBar">

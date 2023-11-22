@@ -26,7 +26,7 @@ if ($_POST && !empty($_POST['user_name']) && !empty($_POST['password']) && !empt
     
     if($password == $reenter_password){
         if($statement->execute()) {
-            header("Location: congrats.php");
+            header("Location: signUp_success.php");
         }
     }
     else {

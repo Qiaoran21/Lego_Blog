@@ -493,3 +493,9 @@ fieldset a:hover {
     font-style: italic;
     text-decoration: none;
 }
+
+#logout {
+    width: 60%;
+    margin: auto;
+    padding-bottom: 70px;
+}

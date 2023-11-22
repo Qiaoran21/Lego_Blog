@@ -30,7 +30,7 @@ include('nav.php');
         <h1><a href="index.php">Error</a></h1>
     </div>
     
-    <h2 id="password_error">Username or password was incorrect, click <a href="account.php">here</a> to try again! </h2>
+    <h2 id="password_error">Username or password was incorrect, <a href="login.php">try again!</a></h2>
     
     <footer>
         <p>Copyright © 2023 Bricks. All rights reserved.</p>

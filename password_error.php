@@ -30,7 +30,7 @@ include('nav.php');
         <h1><a href="index.php">Error</a></h1>
     </div>
     
-    <h2 id="password_error">Two passwords do not match, click <a href="signUp.php">here</a> to try again! </h2>
+    <h2 id="password_error">Two passwords do not match, <a href="signUp.php">try again!</a></h2>
     
     <footer>
         <p>Copyright © 2023 Bricks. All rights reserved.</p>

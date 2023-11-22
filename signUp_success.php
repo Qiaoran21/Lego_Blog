@@ -33,6 +33,7 @@ include('nav.php');
     <div id="congrats_content">
         <div id="congrats_message">
             <h2>🥳 You are now a Bricks member! </h2>
+            You can now <a href="login.php">log in</a>.</p>
         </div>
         
         <div>

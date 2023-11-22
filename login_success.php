@@ -30,7 +30,9 @@ include('nav.php');
         <h1><a href="index.php">Success</a></h1>
     </div>
     
-    <h2 id="password_error">You are now successfully logged in, click <a href="index.php">here</a> to continue! </h2>
+    <h2 id="password_error">Welcome back!</h2>
+
+    <p id="logout"><a href="logout.php">Log out</a></p>
     
     <footer>
         <p>Copyright © 2023 Bricks. All rights reserved.</p>

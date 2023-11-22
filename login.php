@@ -7,9 +7,13 @@
     Description: Final Project - Bricks CMS.
 
 ****************/
+include('nav.php');
+
 session_start();
 
-include('nav.php');
+if(isset($_SESSION['user_name'])) {
+    header("Location: login_success.php");
+}
 
 if ($_POST && !empty($_POST['user_name']) && !empty($_POST['password'])) {
     $user_name = filter_input(INPUT_POST, 'user_name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -24,11 +28,15 @@ if ($_POST && !empty($_POST['user_name']) && !empty($_POST['password'])) {
     $record = $statement->fetch();
     
     if ($password === $record['password']) {
+        $_SESSION['user_name'] = $user_name;
+        $_SESSION['user_id'] = $record['user_id'];
+
         header("Location: login_success.php");
     } else {
         header("Location: login_error.php");
     }   
 }
+
 
 ?>
 
@@ -42,15 +50,15 @@ if ($_POST && !empty($_POST['user_name']) && !empty($_POST['password'])) {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
             integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="styles.css" rel="stylesheet">
-    <title>Bricks - Account</title>
+    <title>Bricks - Login</title>
 </head>
 <body>
     <div id="header">
-        <h1><a href="index.php">Account</a></h1>
+        <h1><a href="index.php">Login</a></h1>
     </div>
     
     <form method="post" id="account">
-        <h2>User Login</h2>
+        <h2>Login to Bricks </h2>
         <div id="user_name">
             <input id="user_name_input" name="user_name" placeholder="User Name">
         </div>    
