@@ -104,9 +104,6 @@ else if(isset($_GET['post_id'])) {
 <!-- testing -->
 <!-- <pre><?php print_r ($categories) ?></pre> -->
 
-
-
-
     <?php if($post_id): ?> 
         <form method="post" id="edit">
             <p><input type="hidden" name="post_id" value="<?= $posts['post_id'] ?>"></p>
@@ -114,10 +111,6 @@ else if(isset($_GET['post_id'])) {
             <p><h2><label for="title">Title</label></h2></p>
             <p><input id="title" name="title" value="<?= $posts['title'] ?>"></p>
         
-
-
-
-            <!-- FIX HERE -->
             <div id="drop_down">
                 <p><h2><label for="tag_id">Category</label></h2></p>
 
@@ -129,13 +122,14 @@ else if(isset($_GET['post_id'])) {
                 </select>
             </div>
 
-
-
-
-
             <p><h2><label for="content">Content</label></h2></p>
             <textarea name="content" id="content" cols="100" rows="17"><?= $posts['content'] ?></textarea>
                 
+            <div id="post_img">
+                <label for="image">Select Images:</label>
+                <input type="file" name="image" id="image" >
+            </div>
+
             <div id="edit_buttons">
                 <button type="submit" name="edit" value="edit">Update</button>
                 <button type="submit" name="delete" value="delete" onclick="return confirm('Are you sure you want to delete?')">Delete</button>

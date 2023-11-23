@@ -37,26 +37,45 @@ if (isset($_GET['post_id'])) {
 
     $statement->execute();
     $tags = $statement->fetchAll();
+
+    // fetch images for post
+    // $query = "SELECT i.image_path FROM images AS i JOIN posts AS p ON i.post_id = p.post_id WHERE p.post_id = :post_id";
+
+    // $statement = $db->prepare($query);
+    // $statement->bindValue(':post_id', $post_id);
+
+    // $statement->execute();
+    // $images = $statement->fetchAll();
+    
 } else {
     $post_id = false;
 }
 
+session_start();
+
+$captcha = rand(1111, 9999);
+
+$_SESSION['captcha'] = $captcha;
+
 // submit new comment
 if (isset($_POST['submit'])) {
+     
     $user = $_POST['user'];
     $comment = $_POST['comment'];
-
-    $query = "INSERT INTO comments (post_id, user, comment) VALUES (:post_id, :user, :comment)";
-    $statement = $db->prepare($query);
-    $statement->bindValue(':post_id', $post_id);
-    $statement->bindValue(':user', $user);
-    $statement->bindValue(':comment', $comment);
     
-    if($statement->execute()) {
-        header("Location: show_post.php?post_id=$post_id");
+    if ($_POST['captcha'] == $_SESSION['captcha']) {
+         
+        $query = "INSERT INTO comments (post_id, user, comment) VALUES (:post_id, :user, :comment)";
+        $statement = $db->prepare($query);
+        $statement->bindValue(':post_id', $post_id);
+        $statement->bindValue(':user', $user);
+        $statement->bindValue(':comment', $comment);
+
+        if ($statement->execute()) {
+            header("Location: show_post.php?post_id=$post_id");
+        }
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -71,6 +90,7 @@ if (isset($_POST['submit'])) {
     <link href="styles.css" rel="stylesheet">
     <title>Bricks - Posts</title>
 </head>
+
 <body>
     <div id="header">
         <h1><a href="index.php">Posts</a></h1>
@@ -81,9 +101,6 @@ if (isset($_POST['submit'])) {
 
         <?php if($post_id): ?>
 
-            <!-- // testing!
-            <pre><?php print_r($comments) ?></pre> -->
-
         <form method="post" id="post">
             <fieldset>
                 <?= date('F j, Y, h:i A', strtotime($posts['created_date'])) ?><a href="edit_post.php?post_id=<?= $posts['post_id'] ?>"> edit</a>
@@ -93,6 +110,11 @@ if (isset($_POST['submit'])) {
                         <a href="show_tag.php?tag_id=<?= $posts['tag_id'] ?>"><?= $tag['name'] ?></a>
                     </div>
                 <?php endforeach; ?>
+
+                <!-- <div class="post_image">
+                   <img src="uploads/ . <?= $images['image_path'] ?>" alt="post images"> 
+                </div> -->
+
 
                 <div class="post_content">
                     <?= $posts['content'] ?>
@@ -126,6 +148,11 @@ if (isset($_POST['submit'])) {
         
         <div id="comment_input_content">
             <textarea name="comment" id="comment" cols="50" rows="3" placeholder="Comment..."></textarea>
+        </div>
+
+        <div id="captcha">
+            <img src="captcha.php?captcha_text=<?= $_SESSION['captcha'] ?>" >
+            <input type="text" name="captcha" id="captcha"></input>
         </div>
         
         <div id="comment_input_submit">
