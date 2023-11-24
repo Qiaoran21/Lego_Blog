@@ -53,8 +53,8 @@ if (isset($_GET['post_id'])) {
 }
 
 
-// $captcha = rand(1111, 9999);
-// $_SESSION['captcha'] = $captcha;
+//$captcha = rand(1111, 9999);
+//$_SESSION['captcha'] = $captcha;
 
 // submit new comment
 if ($_POST && !empty($_POST['user']) && !empty($_POST['comment']) && !empty($_POST['captcha'])) {
@@ -64,6 +64,9 @@ if ($_POST && !empty($_POST['user']) && !empty($_POST['comment']) && !empty($_PO
 
     if (isset($_SESSION['captcha']) && !empty($_POST['captcha']) && $_POST['captcha'] == $_SESSION['captcha']) {
          
+        $_SESSION['user'] = $user;
+        $_SESSION['comment'] = $comment;
+
         $query = "INSERT INTO comments (post_id, user, comment) VALUES (:post_id, :user, :comment)";
         $statement = $db->prepare($query);
         $statement->bindValue(':post_id', $post_id);
@@ -72,15 +75,37 @@ if ($_POST && !empty($_POST['user']) && !empty($_POST['comment']) && !empty($_PO
 
         if ($statement->execute()) {
             header("Location: show_post.php?post_id=$post_id");
-            exit();
+            
+            unset($_SESSION['user']);
+            unset($_SESSION['comment']);
         } 
     } else {
         $error_message = "Incorrect Code";
 
         $captcha = rand(1111, 9999);
         $_SESSION['captcha'] = $captcha;
+
+        $_SESSION['user'] = $user;
+        $_SESSION['comment'] = $comment;
     }
+} else {
+    $captcha = rand(1111, 9999);
+    $_SESSION['captcha'] = $captcha;
 }
+
+// retrive "user" and "comment" input if any.
+if (isset($_SESSION['user'])) {
+    $user_input = $_SESSION['user'];
+} else {
+    $user_input = '';
+}
+
+if (isset($_SESSION['comment'])) {
+    $comment_input = $_SESSION['comment'];
+} else {
+    $comment_input = '';
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -148,18 +173,21 @@ if ($_POST && !empty($_POST['user']) && !empty($_POST['comment']) && !empty($_PO
     </div>
 
     <form method="post" id="comment_input">
-        <div id="comment_input_author">
-            <input type="text" id="user" name="user" placeholder="Author">
-        </div>
-        
-        <div id="comment_input_content">
-            <textarea name="comment" id="comment" cols="50" rows="3" placeholder="Comment..."></textarea>
-        </div>
+    <div id="comment_input_author">
+    <input type="text" id="user" name="user" placeholder="Author" value="<?= ($user_input) ?>">
+</div>
+
+<div id="comment_input_content">
+    <textarea name="comment" id="comment" cols="50" rows="3" placeholder="Comment..."><?= ($comment_input) ?></textarea>
+</div>
 
         <div id="captcha">
-            <p><?php if(isset($error_message)) { echo $error_message; } ?></p>
+            <p><?php if(isset($error_message)): ?> 
+                    <?= $error_message ?>
+                <?php endif; ?></p>
             <img src="captcha.php?captcha_text=<?= $_SESSION['captcha'] ?>" >
             <input type="text" name="captcha" id="captcha"></input>
+            <!-- <input type="submit" name='verify' value='Verify'> -->
         </div>
         
         <div id="comment_input_submit">
