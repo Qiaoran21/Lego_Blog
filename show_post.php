@@ -7,6 +7,7 @@
     Description: Final Project - Bricks CMS.
 
 ****************/
+session_start();
 
 include('nav.php');
 
@@ -51,19 +52,17 @@ if (isset($_GET['post_id'])) {
     $post_id = false;
 }
 
-session_start();
 
-$captcha = rand(1111, 9999);
-
-$_SESSION['captcha'] = $captcha;
+// $captcha = rand(1111, 9999);
+// $_SESSION['captcha'] = $captcha;
 
 // submit new comment
-if (isset($_POST['submit'])) {
-     
-    $user = $_POST['user'];
-    $comment = $_POST['comment'];
-    
-    if ($_POST['captcha'] == $_SESSION['captcha']) {
+if ($_POST && !empty($_POST['user']) && !empty($_POST['comment']) && !empty($_POST['captcha'])) {
+    $user = filter_input(INPUT_POST, 'user', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $comment = filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $captcha_input = filter_input(INPUT_POST, 'captcha', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+    if (isset($_SESSION['captcha']) && !empty($_POST['captcha']) && $_POST['captcha'] == $_SESSION['captcha']) {
          
         $query = "INSERT INTO comments (post_id, user, comment) VALUES (:post_id, :user, :comment)";
         $statement = $db->prepare($query);
@@ -73,7 +72,13 @@ if (isset($_POST['submit'])) {
 
         if ($statement->execute()) {
             header("Location: show_post.php?post_id=$post_id");
-        }
+            exit();
+        } 
+    } else {
+        $error_message = "Incorrect Code";
+
+        $captcha = rand(1111, 9999);
+        $_SESSION['captcha'] = $captcha;
     }
 }
 ?>
@@ -90,6 +95,7 @@ if (isset($_POST['submit'])) {
     <link href="styles.css" rel="stylesheet">
     <title>Bricks - Posts</title>
 </head>
+
 
 <body>
     <div id="header">
@@ -151,6 +157,7 @@ if (isset($_POST['submit'])) {
         </div>
 
         <div id="captcha">
+            <p><?php if(isset($error_message)) { echo $error_message; } ?></p>
             <img src="captcha.php?captcha_text=<?= $_SESSION['captcha'] ?>" >
             <input type="text" name="captcha" id="captcha"></input>
         </div>
