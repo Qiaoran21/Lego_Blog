@@ -22,8 +22,5 @@
         imagecolorallocate($bacground_colour);
 
         imagedestroy($image);
-
-
     }
-
 ?>

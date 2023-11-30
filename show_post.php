@@ -40,24 +40,20 @@ if (isset($_GET['post_id'])) {
     $tags = $statement->fetchAll();
 
     // fetch images for post
-    // $query = "SELECT i.image_path FROM images AS i JOIN posts AS p ON i.post_id = p.post_id WHERE p.post_id = :post_id";
+    $query = "SELECT i.image_path FROM images AS i JOIN posts AS p ON i.post_id = p.post_id WHERE p.post_id = :post_id";
 
-    // $statement = $db->prepare($query);
-    // $statement->bindValue(':post_id', $post_id);
+    $statement = $db->prepare($query);
+    $statement->bindValue(':post_id', $post_id);
 
-    // $statement->execute();
-    // $images = $statement->fetchAll();
+    $statement->execute();
+    $images = $statement->fetchAll();
     
 } else {
     $post_id = false;
 }
 
-
-//$captcha = rand(1111, 9999);
-//$_SESSION['captcha'] = $captcha;
-
 // submit new comment
-if ($_POST && !empty($_POST['user']) && !empty($_POST['comment']) && !empty($_POST['captcha'])) {
+if ($_POST && !empty($_POST['user']) && !empty($_POST['comment'])) {
     $user = filter_input(INPUT_POST, 'user', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $comment = filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $captcha_input = filter_input(INPUT_POST, 'captcha', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -121,7 +117,6 @@ if (isset($_SESSION['comment'])) {
     <title>Bricks - Posts</title>
 </head>
 
-
 <body>
     <div id="header">
         <h1><a href="index.php">Posts</a></h1>
@@ -142,10 +137,13 @@ if (isset($_SESSION['comment'])) {
                     </div>
                 <?php endforeach; ?>
 
-                <!-- <div class="post_image">
-                   <img src="uploads/ . <?= $images['image_path'] ?>" alt="post images"> 
-                </div> -->
-
+                <?php if (!empty($images)): ?>
+                    <div class="post_image">
+                        <?php foreach ($images as $image): ?>
+                            <img src="uploads/<?= $image['image_path'] ?>" alt="post image">
+                        <?php endforeach; ?> 
+                    </div>
+                <?php endif; ?>
 
                 <div class="post_content">
                     <?= $posts['content'] ?>
@@ -169,7 +167,7 @@ if (isset($_SESSION['comment'])) {
                 </div>
             </fieldset>
         </form>
-        <?php endif ?>
+        <?php endif; ?>
     </div>
 
     <form method="post" id="comment_input">
@@ -187,7 +185,6 @@ if (isset($_SESSION['comment'])) {
                 <?php endif; ?></p>
             <img src="captcha.php?captcha_text=<?= $_SESSION['captcha'] ?>" >
             <input type="text" name="captcha" id="captcha"></input>
-            <!-- <input type="submit" name='verify' value='Verify'> -->
         </div>
         
         <div id="comment_input_submit">

@@ -11,29 +11,10 @@
 require('authentication.php');
 include('nav.php');
 
-use \Gumlet\ImageResize;
-
-if (isset($_POST['submit']) && !empty($_POST['title']) && !empty($_POST['content']) && !empty($_POST['tag_id'])) {
+if ($_POST && isset($_POST['submit']) && !empty($_POST['title']) && !empty($_POST['content']) && !empty($_POST['tag_id'])) {
     $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $tag_id = filter_input(INPUT_POST, 'tag_id', FILTER_SANITIZE_NUMBER_INT);
-    $post_id = filter_input(INPUT_POST, 'post_id', FILTER_SANITIZE_NUMBER_INT);
-
-    if (isset($_FILES['image'])) {
-        $filename = $_FILES['image']['name'];
-        $tempname = $_FILES['image']['tmp_name'];
-        $folder = 'uploads/' . $filename;
-
-        $query = "INSERT INTO images (image_path, post_id) VALUES (:image_path, :post_id)";
-        $statement = $db->prepare($query);
-        $statement->bindValue(':image_path', $filename);
-        $statement->bindValue(':post_id', $post_id);
-
-        if ($statement->execute()) {
-            move_uploaded_file($tempname, $folder);
-        }
-
-    }
 
     $query = "INSERT INTO posts (title, content, tag_id) VALUES (:title, :content, :tag_id)";
     $statement = $db->prepare($query);
@@ -43,6 +24,26 @@ if (isset($_POST['submit']) && !empty($_POST['title']) && !empty($_POST['content
     $statement->bindValue(":tag_id", $tag_id);
 
     if ($statement->execute()) {
+        $post_id = $db->lastInsertId();
+
+        if (isset($_FILES['image']) && !empty(array_filter($_FILES['image']['name']))) {
+            $imgCount = count($_FILES['image']['name']);
+
+            for ($i = 0; $i < $imgCount; $i++) {
+                $filename = $_FILES['image']['name'][$i];
+                $tempname = $_FILES['image']['tmp_name'][$i];
+                $folder = 'uploads/' . $filename;
+
+                $query = "INSERT INTO images (image_path, post_id) VALUES (:image_path, :post_id)";
+                $statement = $db->prepare($query);
+                $statement->bindValue(':image_path', $filename);
+                $statement->bindValue(':post_id', $post_id);
+
+                if ($statement->execute()) {
+                    move_uploaded_file($tempname, $folder);
+                }
+            }
+        }
         header("Location: list.php");
     }
 }
@@ -69,7 +70,7 @@ $categories = $db->query($query)->fetchAll();
         <h1><a href="index.php">New Post</a></h1>
     </div>    
 
-    <form method="post" action="insert.php" id="post">
+    <form method="post" action="insert.php" id="post" enctype="multipart/form-data">
         <div id="post_title">
             <input id="title" name="title" placeholder="Title">
         </div>
@@ -89,7 +90,7 @@ $categories = $db->query($query)->fetchAll();
 
         <div id="post_img">
             <label for="image">Select Images:</label>
-            <input type="file" name="image" id="image" >
+            <input type="file" name="image[]" id="image" multiple >
         </div>
         
         <div>
