@@ -11,6 +11,10 @@
 require('authentication.php');
 include('nav.php');
 
+require 'C:\xampp\htdocs\WebDev2\project\php-image-resize\lib\ImageResize.php';
+require 'C:\xampp\htdocs\WebDev2\project\php-image-resize\lib\ImageResizeException.php';
+use \Gumlet\ImageResize;
+
 if ($_POST && isset($_POST['submit']) && !empty($_POST['title']) && !empty($_POST['content']) && !empty($_POST['tag_id'])) {
     $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -33,14 +37,19 @@ if ($_POST && isset($_POST['submit']) && !empty($_POST['title']) && !empty($_POS
                 $filename = $_FILES['image']['name'][$i];
                 $tempname = $_FILES['image']['tmp_name'][$i];
                 $folder = 'uploads/' . $filename;
+                $resizeImage = 'resized_' . $filename;
 
                 $query = "INSERT INTO images (image_path, post_id) VALUES (:image_path, :post_id)";
                 $statement = $db->prepare($query);
-                $statement->bindValue(':image_path', $filename);
+                $statement->bindValue(':image_path', $resizeImage);
                 $statement->bindValue(':post_id', $post_id);
 
                 if ($statement->execute()) {
-                    move_uploaded_file($tempname, $folder);
+                    if (move_uploaded_file($tempname, $resizeImage)) {
+                        $image = new ImageResize($folder);
+                        $image->resizeToWidth(400);
+                        $image->save($resizeImage);
+                    }
                 }
             }
         }

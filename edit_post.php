@@ -11,6 +11,10 @@
 require('authentication.php');
 include('nav.php');
 
+require 'C:\xampp\htdocs\WebDev2\project\php-image-resize\lib\ImageResize.php';
+require 'C:\xampp\htdocs\WebDev2\project\php-image-resize\lib\ImageResizeException.php';
+use \Gumlet\ImageResize;
+
 // Update button
 if (isset($_POST['edit'])) {
     if ($_POST && isset($_POST['title']) && isset($_POST['content']) && isset($_POST['post_id']) && isset($_POST['tag_id'])) {
@@ -27,8 +31,33 @@ if (isset($_POST['edit'])) {
         $statement->bindValue(":content", $content);
         $statement->bindValue(":post_id", $post_id);
         $statement->bindValue(":tag_id", $tag_id);
-    
+
         if(!empty($title) && !empty($content)) {
+
+            if (isset($_FILES['image']) && !empty(array_filter($_FILES['image']['name']))) {
+                $imgCount = count($_FILES['image']['name']);
+    
+                for ($i = 0; $i < $imgCount; $i++) {
+                    $filename = $_FILES['image']['name'][$i];
+                    $tempname = $_FILES['image']['tmp_name'][$i];
+                    $folder = 'uploads/' . $filename;
+                    $resizeImage = 'resized_' . $filename;
+    
+                    $queryImg = "INSERT INTO images (image_path, post_id) VALUES (:image_path, :post_id)";
+                    $statementImg = $db->prepare($queryImg);
+                    $statementImg->bindValue(':image_path', $resizeImage);
+                    $statementImg->bindValue(':post_id', $post_id);
+    
+                    if ($statementImg->execute()) {
+                        if (move_uploaded_file($tempname, $folder)) {
+                            $image = new ImageResize($folder);
+                            $image->resizeToWidth(400);
+                            $image->save($resizeImage);
+                        }
+                    }
+                }
+            }
+
             $statement->execute();
             header("Location: list.php");
         } else {
@@ -100,12 +129,9 @@ else if(isset($_GET['post_id'])) {
     <div id="header">    
         <h1 id="header"><a href="index.php">Edit: <?= $posts['title'] ?></a></h1>
     </div>
-      
-<!-- testing -->
-<!-- <pre><?php print_r ($categories) ?></pre> -->
 
     <?php if($post_id): ?> 
-        <form method="post" id="edit">
+        <form method="post" id="edit" enctype="multipart/form-data">
             <p><input type="hidden" name="post_id" value="<?= $posts['post_id'] ?>"></p>
 
             <p><h2><label for="title">Title</label></h2></p>
@@ -127,7 +153,7 @@ else if(isset($_GET['post_id'])) {
                 
             <div id="post_img">
                 <label for="image">Select Images:</label>
-                <input type="file" name="image" id="image" >
+                <input type="file" name="image[]" id="image" multiple >
             </div>
 
             <div id="edit_buttons">

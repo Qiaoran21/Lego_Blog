@@ -141,6 +141,7 @@ if (isset($_SESSION['comment'])) {
                     <div class="post_image">
                         <?php foreach ($images as $image): ?>
                             <img src="uploads/<?= $image['image_path'] ?>" alt="post image">
+                            <br></br>
                         <?php endforeach; ?> 
                     </div>
                 <?php endif; ?>
