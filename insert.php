@@ -15,6 +15,19 @@ require 'C:\xampp\htdocs\WebDev2\project\php-image-resize\lib\ImageResize.php';
 require 'C:\xampp\htdocs\WebDev2\project\php-image-resize\lib\ImageResizeException.php';
 use \Gumlet\ImageResize;
 
+function file_is_an_image($temporary_path, $new_path) {
+    $allowed_mime_types      = ['image/gif', 'image/jpeg', 'image/png'];
+    $allowed_file_extensions = ['gif', 'jpg', 'jpeg', 'png'];
+
+    $actual_file_extension   = pathinfo($new_path, PATHINFO_EXTENSION);
+    $actual_mime_type        = getimagesize($temporary_path)['mime'];
+
+    $file_extension_is_valid = in_array($actual_file_extension, $allowed_file_extensions);
+    $mime_type_is_valid      = in_array($actual_mime_type, $allowed_mime_types);
+
+    return $file_extension_is_valid && $mime_type_is_valid;
+}
+
 if ($_POST && isset($_POST['submit']) && !empty($_POST['title']) && !empty($_POST['content']) && !empty($_POST['tag_id'])) {
     $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -39,17 +52,22 @@ if ($_POST && isset($_POST['submit']) && !empty($_POST['title']) && !empty($_POS
                 $folder = 'uploads/' . $filename;
                 $resizeImage = 'resized_' . $filename;
 
-                $query = "INSERT INTO images (image_path, post_id) VALUES (:image_path, :post_id)";
-                $statement = $db->prepare($query);
-                $statement->bindValue(':image_path', $resizeImage);
-                $statement->bindValue(':post_id', $post_id);
+                if (file_is_an_image($tempname, $folder)) {
+                    $query = "INSERT INTO images (image_path, post_id) VALUES (:image_path, :post_id)";
+                    $statement = $db->prepare($query);
+                    $statement->bindValue(':image_path', $resizeImage);
+                    $statement->bindValue(':post_id', $post_id);
 
-                if ($statement->execute()) {
-                    if (move_uploaded_file($tempname, $resizeImage)) {
-                        $image = new ImageResize($folder);
-                        $image->resizeToWidth(400);
-                        $image->save($resizeImage);
-                    }
+                    if ($statement->execute()) {
+                        if (move_uploaded_file($tempname, $resizeImage)) {
+                            $image = new ImageResize($folder);
+                            $image->resizeToWidth(400);
+                            $image->save($resizeImage);
+                        }
+                    } 
+                } else {
+                    header("Location: invalid_img.php");
+                    exit;
                 }
             }
         }

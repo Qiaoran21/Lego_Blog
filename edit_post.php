@@ -15,6 +15,21 @@ require 'C:\xampp\htdocs\WebDev2\project\php-image-resize\lib\ImageResize.php';
 require 'C:\xampp\htdocs\WebDev2\project\php-image-resize\lib\ImageResizeException.php';
 use \Gumlet\ImageResize;
 
+
+function file_is_an_image($temporary_path, $new_path) {
+    $allowed_mime_types      = ['image/gif', 'image/jpeg', 'image/png'];
+    $allowed_file_extensions = ['gif', 'jpg', 'jpeg', 'png'];
+
+    $actual_file_extension   = pathinfo($new_path, PATHINFO_EXTENSION);
+    $actual_mime_type        = getimagesize($temporary_path)['mime'];
+
+    $file_extension_is_valid = in_array($actual_file_extension, $allowed_file_extensions);
+    $mime_type_is_valid      = in_array($actual_mime_type, $allowed_mime_types);
+
+    return $file_extension_is_valid && $mime_type_is_valid;
+}
+
+
 // Update button
 if (isset($_POST['edit'])) {
     if ($_POST && isset($_POST['title']) && isset($_POST['content']) && isset($_POST['post_id']) && isset($_POST['tag_id'])) {
@@ -43,17 +58,22 @@ if (isset($_POST['edit'])) {
                     $folder = 'uploads/' . $filename;
                     $resizeImage = 'resized_' . $filename;
     
-                    $queryImg = "INSERT INTO images (image_path, post_id) VALUES (:image_path, :post_id)";
-                    $statementImg = $db->prepare($queryImg);
-                    $statementImg->bindValue(':image_path', $resizeImage);
-                    $statementImg->bindValue(':post_id', $post_id);
-    
-                    if ($statementImg->execute()) {
-                        if (move_uploaded_file($tempname, $folder)) {
-                            $image = new ImageResize($folder);
-                            $image->resizeToWidth(400);
-                            $image->save($resizeImage);
+                    if (file_is_an_image($tempname, $folder)) {
+                        $queryImg = "INSERT INTO images (image_path, post_id) VALUES (:image_path, :post_id)";
+                        $statementImg = $db->prepare($queryImg);
+                        $statementImg->bindValue(':image_path', $resizeImage);
+                        $statementImg->bindValue(':post_id', $post_id);
+        
+                        if ($statementImg->execute()) {
+                            if (move_uploaded_file($tempname, $folder)) {
+                                $image = new ImageResize($folder);
+                                $image->resizeToWidth(400);
+                                $image->save($resizeImage);
+                            }
                         }
+                    } else {
+                        header("Location: invalid_img.php");
+                        exit;
                     }
                 }
             }
