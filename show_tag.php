@@ -4,7 +4,7 @@
     
     Name: Qiaoran Xue
     Date: 2023-11-06
-    Description: Final Project - Bricks CMS.
+    Description: Lego blog - Show tag
 
 ****************/
 
